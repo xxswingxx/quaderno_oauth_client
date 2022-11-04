@@ -1,0 +1,23 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Client:</b>
+  <%= @application_credential.client_id %>
+</p>
+
+<p>
+  <b>Client secret:</b>
+  <%= @application_credential.client_secret %>
+</p>
+
+<p>
+  <b>Redirect uri:</b>
+  <%= @application_credential.redirect_uri %>
+</p>
+
+<p>
+  <%= link_to raw('<b>Generate auth token</b>'), @url %>
+</p>
+
+<%= link_to 'Edit', edit_application_credential_path(@application_credential) %> |
+<%= link_to 'Back', application_credentials_path %>

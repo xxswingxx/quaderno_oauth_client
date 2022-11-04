@@ -1,0 +1,31 @@
+<h1>Listing api_clients</h1>
+
+<table>
+  <tr>
+    <th>Token</th>
+    <th>Refresh token</th>
+    <th>Token expires at</th>
+    <th> APP credentials </th>
+    <th> </th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @api_clients.each do |api_client| %>
+  <tr>
+    <td><%= api_client.token %></td>
+    <td><%= api_client.refresh_token %></td>
+    <td><%= api_client.token_expires_at %></td>
+    <td><%= link_to "application #{api_client.id}", application_credential_path(api_client.application_credential) %></td>
+    <td><%= link_to 'Refresh token', refresh_token_api_client_path(api_client), data: { turbo_confirm: 'Are you sure?' } %></td>
+    <td><%= link_to 'Show', api_client %></td>
+    <td><%= link_to 'Edit', edit_api_client_path(api_client) %></td>
+    <td><%= link_to 'Destroy', api_client, data: { turbo_method: :delete, turbo_confirm: 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'Application credentials', application_credentials_path %>

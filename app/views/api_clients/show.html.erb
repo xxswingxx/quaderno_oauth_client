@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Token:</b>
+  <%= @api_client.token %>
+</p>
+
+<p>
+  <b>Refresh token:</b>
+  <%= @api_client.refresh_token %>
+</p>
+
+<p>
+  <b>Token expires at:</b>
+  <%= @api_client.token_expires_at %>
+</p>
+
+<%= link_to 'Edit', edit_api_client_path(@api_client) %> |
+<%= link_to 'Back', api_clients_path %>

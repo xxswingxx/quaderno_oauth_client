@@ -1,0 +1,32 @@
+<h1>Listing application_credentials</h1>
+
+<table>
+  <tr>
+    <th>Client</th>
+    <th>Client secret</th>
+    <th>Redirect uri</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @application_credentials.each do |application_credential| %>
+  <tr>
+    <td><%= application_credential.client_id %></td>
+    <td><%= application_credential.client_secret %></td>
+    <td><%= application_credential.redirect_uri %></td>
+    <td><%= link_to 'Show', application_credential %></td>
+    <td><%= link_to 'Edit', edit_application_credential_path(application_credential) %></td>
+    <td><%= link_to 'Destroy', application_credential, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<p>
+<%= link_to 'New Application credential', new_application_credential_path %>
+</p>
+<p>
+<%= link_to('API clients', api_clients_path) %>
+</p>

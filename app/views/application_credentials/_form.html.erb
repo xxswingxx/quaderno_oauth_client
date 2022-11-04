@@ -1,0 +1,32 @@
+<%= form_for(@application_credential) do |f| %>
+  <% if @application_credential.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@application_credential.errors.count, "error") %> prohibited this application_credential from being saved:</h2>
+
+      <ul>
+      <% @application_credential.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :client_id %><br />
+    <%= f.text_area :client_id %>
+  </div>
+  <div class="field">
+    <%= f.label :client_secret %><br />
+    <%= f.text_area :client_secret %>
+  </div>
+  <div class="field">
+    <%= f.label :redirect_uri %><br />
+    <%= "https://quaderno.ngrok.io/#{@application_credential.app_id}/callback" %>
+  </div>
+
+  <%= f.hidden_field :app_id %>
+  
+  <%= f.submit %>
+  </div>
+
+<% end %>
