@@ -1,15 +1,16 @@
 # frozen_string_literal: true
 
 class ApplicationCredentialsController < ApplicationController
+  respond_to :html
   before_action :find_application_credential, only: %i[show edit update destroy]
+
+  def new
+    @application_credential = ApplicationCredential.new
+  end
 
   def index
     @application_credentials = ApplicationCredential.all
-
-    respond_to do |format|
-      format.html # index.html.erb
-      format.json { render json: @application_credentials }
-    end
+    respond_with @application_credentials
   end
 
   def show
@@ -17,52 +18,30 @@ class ApplicationCredentialsController < ApplicationController
     client = OAuth2::Client.new(@application_credential.client_id, @application_credential.client_secret, site: ApplicationCredential::SITE)
     @url = client.auth_code.authorize_url(redirect_uri: @application_credential.redirect_uri)
 
-    respond_to do |format|
-      format.html # show.html.erb
-      format.json { render json: @application_credential }
-    end
-  end
-
-  def new
-    respond_to do |format|
-      format.html # new.html.erb
-      format.json { render json: @application_credential }
-    end
+    respond_with @application_credential
   end
 
   def create
     @application_credential = ApplicationCredential.new(create_params)
+    @application_credential.save
 
-    respond_to do |format|
-      if @application_credential.save
-        format.html { redirect_to @application_credential, notice: 'Application credential was successfully created.' }
-        format.json { render json: @application_credential, status: :created, location: @application_credential }
-      else
-        format.html { render action: 'new' }
-        format.json { render json: @application_credential.errors, status: :unprocessable_entity }
-      end
-    end
+    respond_with(@application_credential)
   end
 
   def update
-    respond_to do |format|
-      if @application_credential.update(update_params)
-        format.html { redirect_to @application_credential, notice: 'Application credential was successfully updated.' }
-        format.json { head :no_content }
-      else
-        format.html { render action: 'edit' }
-        format.json { render json: @application_credential.errors, status: :unprocessable_entity }
-      end
+    if @application_credential.update(update_params)
+      flash[:notice] = 'Application credential was successfully updated.'
+      respond_with(@application_credential)
+    else
+      flash.now[:alert] = @application_credential.errors
+      render action: 'edit'
     end
   end
 
   def destroy
     @application_credential.destroy
 
-    respond_to do |format|
-      format.html { redirect_to application_credentials_url }
-      format.json { head :no_content }
-    end
+    redirect_to application_credentials_url
   end
 
   def generate_access_token
@@ -82,10 +61,10 @@ class ApplicationCredentialsController < ApplicationController
   end
 
   def create_params
-    params.require(:application_credential).permit(:client_id, :client_secret, :redirect_uri)
+    params.require(:application_credential).permit(:app_id, :client_id, :client_secret, :redirect_uri)
   end
 
   def update_params
-    params.require(:application_credential).permit(:client_id, :client_secret, :redirect_uri)
+    params.require(:application_credential).permit(:app_id, :client_id, :client_secret, :redirect_uri)
   end
 end

@@ -1,7 +1,11 @@
 # frozen_string_literal: true
 
 class ApplicationCredential < ApplicationRecord
-  SITE = 'http://lvh.me:3000'
+  SITE = 'https://sandbox-quadernoapp.com'
+  #SITE = 'http://lvh.me:3000'
+
+  validates :client_id, presence: true, uniqueness: true
+  validates :client_secret, presence: true, uniqueness: true
 
   after_initialize :set_app_id
   before_save :set_redirect_uri
@@ -13,6 +17,6 @@ class ApplicationCredential < ApplicationRecord
   end
 
   def set_redirect_uri
-    self.redirect_uri = "https://quaderno.ngrok.io/#{app_id}/callback"
+    self.redirect_uri ||= "https://quaderno.ngrok.io/#{app_id}/callback"
   end
 end
