@@ -24,9 +24,13 @@
     <%= "https://quaderno.ngrok.io/#{@application_credential.app_id}/callback" %>
   </div>
 
+  <div class="field">
+    <%= f.label :provider_url %><br />
+    <%= f.select :provider_url, ApplicationCredential.provider_url.values %>
+  </div>
+
   <%= f.hidden_field :app_id %>
   
   <%= f.submit %>
-  </div>
 
 <% end %>

@@ -31,7 +31,7 @@ class ApiClientsController < ApplicationController
       application_credential.client_id,
       application_credential.client_secret,
       redirect_uri: application_credential.redirect_uri,
-      site: ApplicationCredential::SITE
+      site: application_credential.provider_url
     )
 
     token = OAuth2::AccessToken.from_hash(client, refresh_token: @api_client.refresh_token, grant_type: 'refresh_token')

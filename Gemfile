@@ -55,6 +55,7 @@ group :development, :test do
 end
 
 gem 'byebug'
+gem 'enumerize'
 gem 'httparty'
 gem 'oauth2'
 

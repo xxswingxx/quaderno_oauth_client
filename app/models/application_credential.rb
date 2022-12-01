@@ -1,8 +1,13 @@
 # frozen_string_literal: true
 
 class ApplicationCredential < ApplicationRecord
-  SITE = 'https://sandbox-quadernoapp.com'
-  #SITE = 'http://lvh.me:3000'
+  extend Enumerize
+
+  LIVE_SITE = 'https://quadernoapp.com'
+  SANDBOX_SITE = 'https://sandbox-quadernoapp.com'
+  DEVELOPMENT_SITE = 'http://lvh.me:3000'
+
+  enumerize :provider_url, in: [LIVE_SITE, SANDBOX_SITE, DEVELOPMENT_SITE], default: DEVELOPMENT_SITE
 
   validates :client_id, presence: true, uniqueness: true
   validates :client_secret, presence: true, uniqueness: true

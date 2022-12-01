@@ -15,7 +15,7 @@ class ApplicationCredentialsController < ApplicationController
 
   def show
     @application_credential = ApplicationCredential.find(params[:id])
-    client = OAuth2::Client.new(@application_credential.client_id, @application_credential.client_secret, site: ApplicationCredential::SITE)
+    client = OAuth2::Client.new(@application_credential.client_id, @application_credential.client_secret, site: @application_credential.provider_url)
     @url = client.auth_code.authorize_url(redirect_uri: @application_credential.redirect_uri)
 
     respond_with @application_credential
@@ -46,7 +46,7 @@ class ApplicationCredentialsController < ApplicationController
 
   def generate_access_token
     application_credentials = ApplicationCredential.find_by_app_id(params[:app_id])
-    client = OAuth2::Client.new(application_credentials.client_id, application_credentials.client_secret, site: ApplicationCredential::SITE)
+    client = OAuth2::Client.new(application_credentials.client_id, application_credentials.client_secret, site: application_credentials.provider_url)
     token = client.auth_code.get_token(params[:code], redirect_uri: application_credentials.redirect_uri)
     api_client = application_credentials.api_clients.build
     api_client.update(token: token.token, token_expires_at: Time.at(token.expires_at), refresh_token: token.refresh_token)
@@ -61,10 +61,10 @@ class ApplicationCredentialsController < ApplicationController
   end
 
   def create_params
-    params.require(:application_credential).permit(:app_id, :client_id, :client_secret, :redirect_uri)
+    params.require(:application_credential).permit(:app_id, :client_id, :client_secret, :redirect_uri, :provider_url)
   end
 
   def update_params
-    params.require(:application_credential).permit(:app_id, :client_id, :client_secret, :redirect_uri)
+    params.require(:application_credential).permit(:app_id, :client_id, :client_secret, :redirect_uri, :provider_url)
   end
 end

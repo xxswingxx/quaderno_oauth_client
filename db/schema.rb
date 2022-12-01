@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_11_04_114127) do
+ActiveRecord::Schema[7.0].define(version: 2022_12_01_093153) do
   create_table "api_clients", force: :cascade do |t|
     t.text "token"
     t.text "refresh_token"
@@ -28,6 +28,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_04_114127) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "app_id"
+    t.string "provider_url"
     t.index ["app_id"], name: "index_application_credentials_on_app_id", unique: true
   end
 
